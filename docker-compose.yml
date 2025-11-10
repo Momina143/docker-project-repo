@@ -1,0 +1,36 @@
+services:
+  bookstore:
+    image: bookstore #building the image in my userdata.sh file.
+    networks:
+      - books-net
+    ports:
+      - 80:80
+    restart: always
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: mysql:5.7
+    environment: #hard-coding credentials here as this is not for a production env. 
+      MYSQL_ROOT_PASSWORD=mM12345
+      MYSQL_DATABASE=bookstore_db
+      MYSQL_USER=momina
+      MYSQL_PASSWORD=Momina_1
+
+    networks:
+      - books.net
+    volumes:
+      - mysql-volumeName:/var/lib/mysql
+    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-u", "root", "--password=mM12345" ]
+      interval: 5
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+
+  networks:
+    books-net:
+  volume:
+    mysql-volume:
