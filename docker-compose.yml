@@ -13,24 +13,24 @@ services:
   database:
     image: mysql:5.7
     environment: #hard-coding credentials here as this is not for a production env. 
-      MYSQL_ROOT_PASSWORD=mM12345
-      MYSQL_DATABASE=bookstore_db
-      MYSQL_USER=momina
-      MYSQL_PASSWORD=Momina_1
+      MYSQL_ROOT_PASSWORD: mM12345
+      MYSQL_DATABASE: bookstore_db
+      MYSQL_USER: momina
+      MYSQL_PASSWORD: Momina_1
 
     networks:
-      - books.net
+      - books-net
     volumes:
-      - mysql-volumeName:/var/lib/mysql
+      - mysql-volume:/var/lib/mysql
     
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-u", "root", "--password=mM12345" ]
-      interval: 5
-      timeout: 3s
+      interval: "5s"
+      timeout: "3s"
       retries: 10
-      start_period: 30s
+      start_period: "30s"
 
-  networks:
-    books-net:
-  volume:
-    mysql-volume:
+networks:
+  books-net:
+volumes:
+  mysql-volume:
